@@ -91,7 +91,7 @@ class Fetcher
         cdr = {
           :hostname => @hostname, 
           :file => file, 
-          :line => i,
+          :line => i+1,
           :cdr  => CSV.parse_line(line)
           }
         yield cdr
