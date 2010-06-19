@@ -22,7 +22,7 @@ class Fetcher
   # 
   # Usage:
   #
-  #  require 'cdr'
+  #  require 'cdr-fetcher'
   #  require 'pp'
   #  
   #  cdrs = CDR::Fetcher.new(

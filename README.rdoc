@@ -15,7 +15,7 @@ Supports fetching all files, or a delta from a given offset.
 
 == SYNOPSIS:
 
-  require 'cdr'
+  require 'cdr-fetcher'
   require 'pp'
   
   cdrs = CDR::Fetcher.new(
