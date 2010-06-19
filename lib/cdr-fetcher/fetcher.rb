@@ -39,14 +39,15 @@ class Fetcher
   #
   def initialize(hostname, username, opts={})
     opts = { :password => nil,
-             :base_dir => '/var/log/asterisk/cdr-csv',
+             :base_dir => nil,
              :last_dir => nil,
              :last_file=> nil
            }.merge!(opts)
-    @hostname = hostname
-    @username = username
-    @password = opts[:password]
-    @base_dir = opts[:base_dir]
+    @hostname   = hostname
+    @username   = username
+    @password   = opts[:password]
+    @base_dir   = opts[:base_dir]
+    @base_dir ||= '/var/log/asterisk/cdr-csv'
 
     # Setup SSH and SFTP Connection
     @ssh      = Net::SSH.start(@hostname, @username, :password => @password)
