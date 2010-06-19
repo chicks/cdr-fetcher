@@ -4,5 +4,5 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'cdr-fetcher/fetcher'
 
 module CdrFetcher
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
 end
