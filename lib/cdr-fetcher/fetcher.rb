@@ -85,6 +85,8 @@ class Fetcher
   # returned.
   #
   # CDR files are read into memory one at a time.
+  #
+  # Line numbers are NOT zero base (i.e. line 1 = line 1 vs line 0)
   def each
     each_file do |file|
       @sftp.download!(file).split(/\n/).each_with_index do |line,i|
