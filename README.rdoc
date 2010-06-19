@@ -1,0 +1,65 @@
+= cdr-fetcher
+
+* http://github.com/#{github_username}/#{project_name}
+
+== DESCRIPTION:
+
+A rubygem for fetching CDR data from a remote system via SSH/SFTP.  
+Supports fetching all files, or a delta from a given offset.
+
+== FEATURES/PROBLEMS:
+
+* Supports asterisk cdr-csv output format
+* Supports multiple directories
+* Returns a format-neutral data structure
+
+== SYNOPSIS:
+
+  require 'cdr'
+  require 'pp'
+  
+  cdrs = CDR::Fetcher.new(
+  	'hostname', 
+	'username',
+	:password => 'password',
+	:base_dir => '/var/log/asterisk/cdr-csv',
+	:last_dir => 'old-cdrs',
+	:last_file => 'old-cdr.csv')
+	
+  cdrs.each do |cdr|
+    pp cdr
+  end
+
+== REQUIREMENTS:
+
+* net-ssh gem
+* net-sftp gem
+
+== INSTALL:
+
+* sudo gem install cdr-fetcher
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2010 FIXME Carl Hicks
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
