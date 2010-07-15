@@ -1,6 +1,40 @@
 = cdr-fetcher
 
-Description goes here.
+A rubygem for fetching CDR's from a remote system via SSH/SFTP.  
+Supports fetching all files, or a delta from a given offset.
+
+== FEATURES/PROBLEMS:
+
+* Supports asterisk cdr-csv output format
+* Supports multiple directories
+* Returns a format-neutral data structure
+
+== SYNOPSIS:
+
+  require 'cdr-fetcher'
+  require 'pp'
+  
+  cdrs = CDR::Fetcher.new(
+  	'hostname', 
+	'username',
+	:password => 'password',
+	:base_dir => '/var/log/asterisk/cdr-csv',
+	:last_dir => 'old-cdrs',
+	:last_file => 'old-cdr.csv')
+	
+  cdrs.each do |cdr|
+    pp cdr
+  end
+
+== REQUIREMENTS:
+
+* net-ssh gem
+* net-sftp gem
+
+== INSTALL:
+
+* sudo gem install cdr-fetcher
+
 
 == Note on Patches/Pull Requests
  
