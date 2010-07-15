@@ -17,12 +17,12 @@ Gem::Specification.new do |s|
      "README.rdoc"
   ]
   s.files = [
-    ".document",
-     ".gitignore",
+    ".gitignore",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "cdr-fetcher.gemspec",
      "lib/cdr-fetcher.rb",
      "test/helper.rb",
      "test/test_cdr-fetcher.rb"
