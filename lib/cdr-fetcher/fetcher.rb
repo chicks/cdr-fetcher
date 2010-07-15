@@ -4,7 +4,31 @@ require 'csv'
 require 'rubygems'
 require 'net/ssh'
 require 'net/sftp'
-  
+
+# Fetch CDR's from a remote server.
+#
+# :base_dir defaults to "/var/log/asterisk/cdr-csv".
+# :last_dir defaults to the first sub-directory
+# in :base_dir.
+# :last_file defaults to the first file in :last_dir.
+# 
+# Usage:
+#
+#  require 'cdr-fetcher'
+#  require 'pp'
+#  
+#  cdrs = CDR::Fetcher.new(
+#    'hostname', 
+#	   'username',
+#	   :password => 'password',
+#	   :base_dir => '/var/log/asterisk/cdr-csv',
+#	   :last_dir => 'old-cdrs',
+#	   :last_file=> 'old-cdr.csv')  
+#
+#  cdrs.each do |cdr|
+#    pp cdr
+#  end
+#  
 class Fetcher
   attr :hostname, false
   attr :username, false
@@ -13,31 +37,14 @@ class Fetcher
   attr :last_dir, true
   attr :last_file, true
   
-  # Fetch CDR's from a remote server.
+  # Create a new instance of Fetcher
   #
-  # :base_dir defaults to "/var/log/asterisk/cdr-csv".
-  # :last_dir defaults to the first sub-directory
-  # in :base_dir.
-  # :last_file defaults to the first file in :last_dir.
-  # 
-  # Usage:
-  #
-  #  require 'cdr-fetcher'
-  #  require 'pp'
-  #  
-  #  cdrs = CDR::Fetcher.new(
-  #    'hostname', 
-  #	   'username',
-  #	   :password => 'password',
-  #	   :base_dir => '/var/log/asterisk/cdr-csv',
-  #	   :last_dir => 'old-cdrs',
-  #	   :last_file=> 'old-cdr.csv')  
-  #
-  #  cdrs.each do |cdr|
-  #    pp cdr
-  #  end
-  #
+  #  :base_dir defaults to "/var/log/asterisk/cdr-csv".
+  #  :last_dir defaults to the first sub-directory
+  #   in :base_dir.
+  #  :last_file defaults to the first file in :last_dir.
   def initialize(hostname, username, opts={})
+    # Process options and arguments
     opts = { :password => nil,
              :base_dir => nil,
              :last_dir => nil,
@@ -87,7 +94,7 @@ class Fetcher
   #
   # CDR files are read into memory one at a time.
   #
-  # Line numbers are NOT zero base (i.e. line 1 = line 1 vs line 0)
+  # Line numbers are NOT zero indexed (i.e. line 1 == line 1 NOT line 0)
   def each
     each_file do |file|
       @sftp.download!(file).split(/\n/).each_with_index do |line,i|
