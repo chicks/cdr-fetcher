@@ -1,26 +1,55 @@
 require 'rubygems'
-gem 'hoe', '>= 2.1.0'
-require 'hoe'
-require 'fileutils'
-require './lib/cdr-fetcher'
+require 'rake'
 
-Hoe.plugin :newgem
-Hoe.plugin :git
-# Hoe.plugin :website
-# Hoe.plugin :cucumberfeatures
-
-# Generate all the Rake tasks
-# Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.spec 'cdr-fetcher' do
-  self.developer 'Carl Hicks', 'carl.hicks@gmail.com'
-  self.rubyforge_name       = self.name # TODO this is default value
-  self.extra_deps         = [['net-sftp'],['net-ssh']]
-
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    gem.name = "cdr-fetcher"
+    gem.summary = %Q{A gem for fetching CDR's from a remote system.}
+    gem.description = %Q{A gem for fetching CDR data from a remote system via SSH/SFTP.  Supports fetching all files, or a delta from a given offset.}
+    gem.email = "carl.hicks@gmail.com"
+    gem.homepage = "http://github.com/chicks/cdr-fetcher"
+    gem.authors = ["Carl Hicks"]
+    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_dependency 'net-sftp'
+    gem.add_dependency 'net-ssh'
+    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'newgem/tasks'
-Dir['tasks/**/*.rake'].each { |t| load t }
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
+end
 
-# TODO - want other tests/tasks run by default? Add them to the list
-# remove_task :default
-# task :default => [:spec, :features]
+begin
+  require 'rcov/rcovtask'
+  Rcov::RcovTask.new do |test|
+    test.libs << 'test'
+    test.pattern = 'test/**/test_*.rb'
+    test.verbose = true
+  end
+rescue LoadError
+  task :rcov do
+    abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
+  end
+end
+
+task :test => :check_dependencies
+
+task :default => :test
+
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "cdr-fetcher #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
