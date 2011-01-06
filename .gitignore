@@ -19,4 +19,7 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
+<<<<<<< HEAD
 *.gemspec
+=======
+>>>>>>> 3640e697b548268d0e7bf849d39f3ec93f25a36a
