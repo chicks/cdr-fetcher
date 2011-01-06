@@ -77,12 +77,14 @@ class Fetcher
   # moving to the next file or directory until all CDRs have been
   # returned.
   def each_file
-    while true
+    @more_files = true
+    while @more_files
       file = @cur_file
       if file
         yield [@base_dir,@cur_dir.name,@cur_file.name].join("/")
         next_file!
       else
+        @more_files = false
         break
       end
     end        
@@ -130,6 +132,7 @@ class Fetcher
             if dir
               return @cur_file
             else
+              @more_files = false
               return false
             end
           end
